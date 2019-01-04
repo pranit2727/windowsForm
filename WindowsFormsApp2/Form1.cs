@@ -24,7 +24,7 @@ namespace WindowsFormsApp2
             InitializeComponent();
         }
 
-        //insert button
+        //Insert button
         private void button1_Click(object sender, EventArgs e)
         {
             var empInsert = new Employee(firstname_txt.Text.Trim(), lastname_txt.Text.Trim(),
