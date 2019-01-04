@@ -170,7 +170,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(103, 41);
             this.button4.TabIndex = 14;
-            this.button4.Text = "Load Table";
+            this.button4.Text = "Load Table (Refresh)";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
