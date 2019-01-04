@@ -27,12 +27,15 @@ namespace WindowsFormsApp2
         //Insert button
         private void button1_Click(object sender, EventArgs e)
         {
-            var empInsert = new Employee(firstname_txt.Text.Trim(), lastname_txt.Text.Trim(),
-                email_txt.Text.Trim(), Convert.ToInt32(age_txt.Text.Trim()));
-            
 
-            if (firstname_txt.Text != "" && lastname_txt.Text != "")
+            if ((firstname_txt.Text.Trim() != "" && lastname_txt.Text.Trim() != "") && (email_txt.Text.Trim() != "" && age_txt.Text.Trim() != ""))
             {
+                //validation for mail ID
+                if (email_txt.Text.Trim().Contains("mail.com"))
+                {
+                    var empInsert = new Employee(firstname_txt.Text.Trim(), lastname_txt.Text.Trim(),
+                    email_txt.Text.Trim(), Convert.ToInt32(age_txt.Text.Trim()));
+
                 cmd = new SqlCommand("insert into tbl_empRecord(Firstname,Lastname,Email,Age) values(@fname,@lname,@email,@age)", connection);
                 connection.Open();
                 cmd.Parameters.AddWithValue("@fname", empInsert.firstName);
@@ -42,6 +45,11 @@ namespace WindowsFormsApp2
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 MessageBox.Show("Record Inserted Successfully");
+                }
+                else
+                {
+                    MessageBox.Show("Mail ID is invalid format");
+                }
             }
             else
             {
@@ -49,26 +57,31 @@ namespace WindowsFormsApp2
             }
         }
 
+
+        
         //update button update based on email ID
         private void button2_Click(object sender, EventArgs e)
         {
             //email is unique in database 
             //for updating record use email
 
-            var empUpdate = new Employee(firstname_txt.Text.Trim(), lastname_txt.Text.Trim(),
-              email_txt.Text.Trim(), Convert.ToInt32(age_txt.Text.Trim()));
 
-            if (email_txt.Text != "")
+            if ((firstname_txt.Text.Trim() != "" && lastname_txt.Text.Trim()!= "") && (email_txt.Text.Trim() != "" && age_txt.Text.Trim() != ""))
             {
-                cmd = new SqlCommand("update tbl_empRecord set Firstname=@fname,Lastname=@lname,Age=@age where Email=@email", connection);
-                connection.Open();
-                cmd.Parameters.AddWithValue("@fname",empUpdate.firstName);
-                cmd.Parameters.AddWithValue("@lname",empUpdate.lastName);
-                cmd.Parameters.AddWithValue("@email", empUpdate.email);
-                cmd.Parameters.AddWithValue("@age",empUpdate.age);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Record Updated Successfully");
-                connection.Close();
+                
+                    var empUpdate = new Employee(firstname_txt.Text.Trim(), lastname_txt.Text.Trim(),
+                      email_txt.Text.Trim(), Convert.ToInt32(age_txt.Text.Trim()));
+
+                    cmd = new SqlCommand("update tbl_empRecord set Firstname=@fname,Lastname=@lname,Age=@age where Email=@email", connection);
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@fname", empUpdate.firstName);
+                    cmd.Parameters.AddWithValue("@lname", empUpdate.lastName);
+                    cmd.Parameters.AddWithValue("@email", empUpdate.email);
+                    cmd.Parameters.AddWithValue("@age", empUpdate.age);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Record Updated Successfully");
+                    connection.Close();
+              
             }
             else
             {
@@ -76,24 +89,33 @@ namespace WindowsFormsApp2
             }
         }
 
+
         // To delete the record 
         private void button3_Click(object sender, EventArgs e)
         {
             if (email_txt_delete.Text!= "")
             {
-                cmd = new SqlCommand("delete tbl_empRecord where Email=@email", connection);
-                connection.Open();
-                cmd.Parameters.AddWithValue("@email", email_txt_delete.Text.Trim());
-                cmd.ExecuteNonQuery();
-                connection.Close();
-                MessageBox.Show("Record Deleted Successfully!");
+                if (email_txt_delete.Text.Trim().Contains("mail.com"))
+                {
+                    cmd = new SqlCommand("delete tbl_empRecord where Email=@email", connection);
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@email", email_txt_delete.Text.Trim());
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                    MessageBox.Show("Record Deleted Successfully!");
+                }
+                else
+                {
+                    MessageBox.Show("Mail ID is invalid format");
+                }
             }
             else
             {
-                MessageBox.Show("Please Select Record to Delete");
+                MessageBox.Show("Please Enter mail ID to Delete");
             }
             
         }
+
 
         //display data in grid view
         private void button4_Click(object sender, EventArgs e)
